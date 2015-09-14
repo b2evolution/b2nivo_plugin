@@ -15,7 +15,7 @@
 if( !defined('EVO_MAIN_INIT') ) die( 'Please, do not access this page directly.' );
 
 /**
-b2Nivo Nivo Slider Plugin *
+ * b2Nivo Nivo Slider Plugin *
  * This plugin Allows you to add "Nivo Slider" Slideshow widget to anywhere you want in your blog');
  *
  */
@@ -30,19 +30,22 @@ class b2nivo_plugin extends Plugin
 	var $short_desc = 'Nivo Slider Widget.';
 	var $number_of_installs = 1;
 	var $priority = 50;
-	var $version = '1.0';
+	var $version = '1.1';
 	var $extra_info = 'test?';
 	var $apply_rendering = 'never';
+
 	function PluginInit( & $params ) 
 	{
-		//$this->name = $this->T_('b2 Nivo Slider') . '#' . $this->ID;
 		$this->short_desc = $this->T_('Nivo Slider Widget.');
 		$this->long_desc = $this->T_('Allows you to add "Nivo Slider" Slideshow widget to anywhere you want in your blog');
 	}
+
 	function get_widget_param_definitions( $params ) 
-    { global $baseurl, $plugins_subdir;
-      $r = array( 
-	  		'slider_id' => array(
+    { 
+    	global $baseurl, $plugins_subdir;
+      	
+      	$r = array( 
+	  			'slider_id' => array(
 					'label' => T_('Slider #ID'),
 					'note' => T_('Choose a unique id to avoid conflicts, <span style="color:#FF0000;">!Important if you are using MULTIPLE INSTANCEs of the Nivo Slider widget, do not forget to change this.</span>'),
 					'defaultvalue' => 'slider',
@@ -57,7 +60,6 @@ class b2nivo_plugin extends Plugin
 				'slider_folder' => array(
 					'label' => T_('Image Folder'),
 					'id' => $this->classname.'_slider_folder',
-				//	'onchange' => 'document.getElementById("'.$this->classname.'_slider_folder_manual").disabled = ( this.value == "manual" );',
 					'note' => T_('Folder path relative to your /blog baseurl. Default is:'.$baseurl.$plugins_subdir.'b2nivo_plugin/images/'),
 					'defaultvalue' => $plugins_subdir.'b2nivo_plugin/images/',
 					'size' => '60',
@@ -66,22 +68,13 @@ class b2nivo_plugin extends Plugin
 						'label' => T_('Slider Theme'),
 						'note' => T_('Choose from available themes.This is a global option not per widget, which means you can not individually choose themes per your multiple sliders.'),
 						'defaultvalue' => 'default',
-						'options' => array( 'default' => $this->T_('Default'), 'pascal' => $this->T_('Pascal'), 'orman' => $this->T_('Orman') ),
+						'options' => array( 'default' => $this->T_('Default'), 'bar' => $this->T_('Bar'), 'dark' => $this->T_('Dark'), 'light' => $this->T_('Light') ),
 						'type' => 'select',
 				),
-			/*	'slider_folder_manual' => array(
-					'label' => T_('Img Folder Path'),
-					'id' => $this->classname.'_slider_folder',
-					'onchange' => 'document.getElementById("'.$this->classname.'_slider_folder_manual").disabled = ( this.value == "manual" );',
-					'note' => T_('Read from folder automatically, or define image folder manually. Default is automatic.').$baseurl,
-					'defaultvalue' => $baseurl.$plugins_subdir.'b2nivo_plugin/images/',
-					'options' => array( 'automatic' => $this->T_('Automatic'), 'manual' => $this->T_('Manual') ),
-					'type' => 'select',
-				),*/
 				
 				'manual_options_begin' => array(
-				'layout' => 'begin_fieldset',
-				'label' => $this->T_('Manual Image Entries (Only Effective in "Manual Config" Mode)'),
+						'layout' => 'begin_fieldset',
+						'label' => $this->T_('Manual Image Entries (Only Effective in "Manual Config" Mode)'),
 				),
 					'image_1_n' => array(
 						'label' => T_('Img Name'),
@@ -169,12 +162,12 @@ class b2nivo_plugin extends Plugin
 					),
 					
 				'manual_options_end' => array(
- 				'layout' => 'end_fieldset',
+ 					'layout' => 'end_fieldset',
 				),
 	
 				'slider_config_begin' => array(
-				'layout' => 'begin_fieldset',
-				'label' => $this->T_('Slider Configuration'),
+					'layout' => 'begin_fieldset',
+					'label' => $this->T_('Slider Configuration'),
 				),
 					'slider_width' => array(
 					'label' => T_('Slider Width'),
@@ -352,13 +345,7 @@ class b2nivo_plugin extends Plugin
 	function GetDefaultSettings( & $params ) 
 	{	global $baseurl;
 		 $rr = array( 
-			/*	'slider_theme' => array(
-						'label' => T_('Slider Theme'),
-						'note' => T_('Choose from available themes.This is a global option not per widget, which means you can not individually choose themes per your multiple sliders.'),
-						'defaultvalue' => '',
-						'options' => array( 'pascal' => $this->T_('Pascal'), 'orman' => $this->T_('Orman') ),
-						'type' => 'select',
-					),
+				/*	
 				'slider_config_begin' => array(
 				'layout' => 'begin_fieldset',
 				'label' => $this->T_('Slider Configuration'),
@@ -533,78 +520,82 @@ class b2nivo_plugin extends Plugin
 				'slider_config_end' => array(
  				'layout' => 'end_fieldset',
 				),			*/
-					'further_custom' => array(
+				'further_custom' => array(
 					'label' => T_('Other Settings ? Where ?'),
 					'size' => '80',
 					'defaultvalue' => 'Insert your Slider as a "widget" into one of your available "containers".',
 					'disabled' => true, 	
 					'note' => 'Go to <a href="'.$baseurl.'admin.php?ctrl=widgets">Blog > Widgets</a> now to insert & configure your slider.',
-					),
-					'use_themes' => array(
+				),
+				'use_themes' => array(
 					'label' => T_('Use "themes"'),
 					'note' => T_('if you are not going to use orman-pascal themes, check this to UNLOAD extra 2 css files.'),
 					'defaultvalue' => 1,
 					'type' => 'checkbox',
-					),
-					'allow_backlinks' => array(
-						'label' => 'Allow links ?',
-						'defaultvalue' => '1',
-						'type' => 'checkbox',
-						'note' => 'The plugin will display a few (virtually harmless) backlinks in the bottom of your page, not visible at all.If you wish you can disable this to remove them.<br />
-						But please remember, a lot of hours go into developing plugins.If you liked the plugin, let them stay please (:',
-					),
-					'debug_opt' => array(
-						'label' => 'Debug ?',
-						'defaultvalue' => '0',
-						'type' => 'checkbox',
-						'note' => 'Enable to view various info on skin output to fix problems.',
-					),
+				),
+				'allow_backlinks' => array(
+					'label' => 'Allow links ?',
+					'defaultvalue' => '1',
+					'type' => 'checkbox',
+					'note' => 'The plugin will display a few (virtually harmless) backlinks in the bottom of your page, not visible at all.If you wish you can disable this to remove them.<br />But please remember, a lot of hours go into developing plugins.If you liked the plugin, let them stay please (:',
+				),
+				'debug_opt' => array(
+					'label' => 'Debug ?',
+					'defaultvalue' => '0',
+					'type' => 'checkbox',
+					'note' => 'Enable to view various info on skin output to fix problems.',
+				),
 			);
 		return $rr;
 	}
-		function SkinBeginHtmlHead()
+		
+	function SkinBeginHtmlHead( $params )
 	{
 		global $plugins_url;
+
 		$plug_url = $this->get_plugin_url();
-		$use_themes = $this->Settings->get( 'use_themes' );
-	//	$slider_theme = $this->Settings->get( 'slider_theme' );
+		
 		require_js( $plug_url . 'res/jquery.nivo.slider.pack.js', TRUE );
-	/*	$slider_css = '<style type="text/css">
-			 <!-- 	';
-				if(!empty($slider_id)) $slider_css .= '#'.$slider_id.'';
-				$slider_css .= '.nivoSlider {
-					width:'.$slider_width.';
-					height:'.$slider_height.';
-				}
-			 -->
-		</style>';
-		add_headline( $slider_css );*/
 		require_js( '#jquery#' );
-		require_css( $plugins_url . 'b2nivo_plugin/themes/default/default.css' );
-		// if ( $slider_theme == 'pascal' )
-		if(($use_themes)) {
-		require_css( $plugins_url . 'b2nivo_plugin/themes/pascal/pascal.css' ); 
-		// if ( $slider_theme == 'orman' )
-		require_css( $plugins_url . 'b2nivo_plugin/themes/orman/orman.css' );
-		};
+
+		// Load themes
+		$themes = array('bar','dark','default','light');
+		$use_themes = $this->Settings->get( 'use_themes' );
+		if( $use_themes )
+		{
+			foreach($themes as $theme )
+			{
+				require_css( $plugins_url . 'b2nivo_plugin/themes/'.$theme.'/'.$theme.'.css' );
+			}
+		}
+		else
+		{
+			require_css( $plugins_url . 'b2nivo_plugin/themes/default/default.css' );
+		}
+		
 		require_css( $plugins_url . 'b2nivo_plugin/res/nivo-slider.css' );
 	}
+
 	function AfterInstall()
     {
+    	global $baseurl;
+
         $this->msg( 'Slider plugin installed succesfully.<br />Go to <a href="'.$baseurl.'admin.php?ctrl=widgets">Blog > Widgets</a> now to insert & configure your slider.<br />If you want to use MULTIPLE instances of SLIDER just install one more of the plugin.See read more for additional info.' );
     }
 
 	
-		/*function BeforeEnable()
-	{
-		return true ;
-	}*/
-	  
 	function SkinTag( $params )
-	{	global $Plugins, $baseurl, $plugins_subdir, $plugins_path, $basepath;
+	{	
+		global $Plugins, $baseurl, $plugins_subdir, $plugins_path, $basepath;
 		$slider_folder = $params['slider_folder'];
 		$def_urf = $baseurl . $slider_folder;
 		$def_folder = $basepath . $slider_folder;
+
+		if( $params['slider_theme'] == 'pascal' || $params['slider_theme'] == 'orman' )
+		{
+			$params['slider_theme'] = 'default';
+		}
+		
 		/* widget (slider) parameters - settings */
 		$slider_id = $params['slider_id'];
 		$slider_mode = $params['slider_mode'];
@@ -650,7 +641,6 @@ class b2nivo_plugin extends Plugin
 		$image_4_n = $params['image_4_n'];
 		$image_4_u = $params['image_4_u'];
 		$image_4_c = $params['image_4_c'];
-        //  echo  $this->code.$this->ID;
 
 		echo $params['block_start']."\n";
 		echo '<div class="slider-wrapper theme-'.$slider_theme.'">
@@ -692,7 +682,9 @@ class b2nivo_plugin extends Plugin
 			}
 				closedir($dir_handle);
 		} // end if auto
-		if($slider_mode == 'manual') {
+		
+		if($slider_mode == 'manual') 
+		{
 			if(!empty($image_1_u)) $manual_c = '<a href="'.$image_1_u.'">';
 			if(!empty($image_1_n)) $manual_c .=  '<img src="'.$def_urf.$image_1_n.'" alt="" title="#image1c" />';
 			if(!empty($image_1_u)) $manual_c .= '</a>';
@@ -769,39 +761,34 @@ class b2nivo_plugin extends Plugin
 		return ( true ) ;
 
 	}
-/*	var $render_s = '[test_code]';
-	var $render_r = '<div>Test text here</div>';
-	function RenderItemAsHtml( & $params )
-	{
-		$content = & $params['data'];
-    //    $content = preg_replace( quotemeta($this->render_s), $this->render_r, $content ); 
-		$content = preg_replace( '~'.preg_quote($this->render_s, '~').'~', $this->render_r, $content );  
-		//$content = preg_replace( $this->render_s, $this->render_r, $content );
-	}*/
-	  function SkinEndHtmlBody( & $params )
+
+	function SkinEndHtmlBody( & $params )
     { 
-				$debug_opt = $this->Settings->get( 'debug_opt' );
-	if(($debug_opt)) {
+		$debug_opt = $this->Settings->get( 'debug_opt' );
 		
-		echo "debug is on";
-		
+		if(($debug_opt)) 
+		{
+			echo "debug is on";
 		};
-			$allow_backlinks = $this->Settings->get( 'allow_backlinks' );
+		
+		$allow_backlinks = $this->Settings->get( 'allow_backlinks' );
 
-		if(($allow_backlinks)) {
-		echo '<div id="creditz" style="font-size: 9px; color: #ccc; position: absolute; bottom: -40px; text-indent: -9999px;">
-      	  <a href="http://www.tilqi.com" title="Ozlu Sozler, Guzel Sozler, Ask Sozleri, Einstein Sozleri, kisa anlamli en guzel sozler">ozlu Sozler</a>
-      	  <a href="http://www.gereksizgercek.com" title="İlginç Bilgiler, Bunlari biliyormusunuz, bunlari biliyormuydunuz, komik bilgiler">GereksizGercek</a>
-      	  <a href="http://www.havadurumum.com" title="Hava Durumu, izmir hava durumu, hava durumu istanbul, hava durumu ankara, mynet hava durumu bursa, istanbul ankara bursa izmir buyuksehir hava durumlari">Hava Durumu</a>
-      	  <a href="http://www.megarehberim.com" title="Firma rehberi izmir, Firmalar telefon ve adresleri, firmalar rehberi, Turkiye Firma rehberi, firma rehber, ankara bursa sehir rehberi, firma telefon rehberi, is rehberi, sektorel firmalar, tekstil rehberi, kayseri konya firmalar, antalya - megarehberim.com">Firma Rehberi</a>
-          <a href="http://www.havanasiloralarda.com" title="Hava Durumu, izmir hava durumu, hava durumu istanbul, hava durumu ankara, mynet hava durumu bursa, istanbul ankara bursa izmir buyuksehir hava durumlari">Hava Durumu</a>
-          <a href="http://www.megafirmarehberi.com" title="Firmalar telefon ve adresleri, Firma rehberi izmir, firmalar rehberi, Turkiye Firma rehberi, firma rehber, ankara bursa sehir rehberi, firma telefon rehberi, is rehberi, sektorel firmalar, tekstil rehberi, kayseri konya firmalar, antalya - megarehberim.com">Firma Rehberi</a>
+		if(($allow_backlinks)) 
+		{
+			echo '<div id="creditz" style="font-size: 9px; color: #ccc; position: absolute; bottom: -40px; text-indent: -9999px;">
+	      	  <a href="http://www.tilqi.com" title="Ozlu Sozler, Guzel Sozler, Ask Sozleri, Einstein Sozleri, kisa anlamli en guzel sozler">ozlu Sozler</a>
+	      	  <a href="http://www.gereksizgercek.com" title="İlginç Bilgiler, Bunlari biliyormusunuz, bunlari biliyormuydunuz, komik bilgiler">GereksizGercek</a>
+	      	  <a href="http://www.havadurumum.com" title="Hava Durumu, izmir hava durumu, hava durumu istanbul, hava durumu ankara, mynet hava durumu bursa, istanbul ankara bursa izmir buyuksehir hava durumlari">Hava Durumu</a>
+	      	  <a href="http://www.megarehberim.com" title="Firma rehberi izmir, Firmalar telefon ve adresleri, firmalar rehberi, Turkiye Firma rehberi, firma rehber, ankara bursa sehir rehberi, firma telefon rehberi, is rehberi, sektorel firmalar, tekstil rehberi, kayseri konya firmalar, antalya - megarehberim.com">Firma Rehberi</a>
+	          <a href="http://www.havanasiloralarda.com" title="Hava Durumu, izmir hava durumu, hava durumu istanbul, hava durumu ankara, mynet hava durumu bursa, istanbul ankara bursa izmir buyuksehir hava durumlari">Hava Durumu</a>
+	          <a href="http://www.megafirmarehberi.com" title="Firmalar telefon ve adresleri, Firma rehberi izmir, firmalar rehberi, Turkiye Firma rehberi, firma rehber, ankara bursa sehir rehberi, firma telefon rehberi, is rehberi, sektorel firmalar, tekstil rehberi, kayseri konya firmalar, antalya - megarehberim.com">Firma Rehberi</a>
 
-           <a href="http://www.eokulvelisi.com" title="e-okul, eokul lisemeb e-okule-okul yonetim bilgi sistemie-okul, veli bilgilendirme sistemie-okul karnee-okul vbse-okul yonetime-okul giris">E-okul Veli</a>
-           <a href="http://www.firmarehberi.co" title="sirket Firma rehberi izmir, Firmalar telefon ve adresleri, firmalar rehberi, Turkiye Firma rehberi, firma rehber, ankara bursa sehir rehberi, firma telefon rehberi, is rehberi, sektorel firmalar, tekstil rehberi, kayseri konya firmalar, antalya - megarehberim.com">Firma Rehberi</a>
-        </div>';
+	           <a href="http://www.eokulvelisi.com" title="e-okul, eokul lisemeb e-okule-okul yonetim bilgi sistemie-okul, veli bilgilendirme sistemie-okul karnee-okul vbse-okul yonetime-okul giris">E-okul Veli</a>
+	           <a href="http://www.firmarehberi.co" title="sirket Firma rehberi izmir, Firmalar telefon ve adresleri, firmalar rehberi, Turkiye Firma rehberi, firma rehber, ankara bursa sehir rehberi, firma telefon rehberi, is rehberi, sektorel firmalar, tekstil rehberi, kayseri konya firmalar, antalya - megarehberim.com">Firma Rehberi</a>
+	        </div>';
 		};
 	}
+
 	/**
 	 * TODO: allow multipla instances through widget $params, add debug.
 	 * @version 1.0: initial release
