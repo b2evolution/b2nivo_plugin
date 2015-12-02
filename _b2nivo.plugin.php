@@ -645,18 +645,21 @@ class b2nivo_plugin extends Plugin
 		echo $params['block_start']."\n";
 		echo '<div class="slider-wrapper theme-'.$slider_theme.'">
 				<div class="ribbon"></div>
-					<div id="'.$slider_id.'" class="nivoSlider" style="width: '.$slider_width.'; height: '.$slider_height.';">';				
-		if($slider_mode == 'automatic') {
-		$directory = $def_folder;
-		$allowed_types=array('jpg','jpeg','gif','png');
-		$file_parts=array();
-		$ext='';
-		$title='';
-		$i=0;
-		$dir_handle = @opendir($directory) or die("There is an error with your image directory!");			
+					<div id="'.$slider_id.'" class="nivoSlider" style="width: '.$slider_width.'; height: '.$slider_height.';">';
+		
+		if ( $slider_mode == 'automatic' ) 
+		{
+			$directory = $def_folder;
+			$allowed_types = array('jpg','jpeg','gif','png');
+			$file_parts = array();
+			$ext = '';
+			$title = '';
+			$i = 0;
+			$dir_handle = @opendir($directory) or die("There is an error with your image directory!");			
 			while ($file = readdir($dir_handle)) 
 			{
-				if($file=='.' || $file == '..') continue;
+				if( ! $this->checkImage($directory.DIRECTORY_SEPARATOR.$file) ) continue;
+				
 				$file_parts = explode('.',$file);
 				$ext = strtolower(array_pop($file_parts));
 				$title = implode('.',$file_parts);
@@ -787,6 +790,22 @@ class b2nivo_plugin extends Plugin
 	           <a href="http://www.firmarehberi.co" title="sirket Firma rehberi izmir, Firmalar telefon ve adresleri, firmalar rehberi, Turkiye Firma rehberi, firma rehber, ankara bursa sehir rehberi, firma telefon rehberi, is rehberi, sektorel firmalar, tekstil rehberi, kayseri konya firmalar, antalya - megarehberim.com">Firma Rehberi</a>
 	        </div>';
 		};
+	}
+
+	function checkImage($filename) 
+	{
+		if ( ! $mimetype = @getimagesize($filename) )
+		{
+			return false;
+		}
+
+		$allowed_mimes = array('image/jpeg', 'image/gif', 'image/png');
+
+		if ( isset($mimetype['mime']) && in_array($mimetype['mime'], $allowed_mimes) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
