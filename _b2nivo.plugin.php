@@ -549,7 +549,7 @@ class b2nivo_plugin extends Plugin
 		return $rr;
 	}
 		
-	function SkinBeginHtmlHead( $params )
+	function SkinBeginHtmlHead( & $params )
 	{
 		global $plugins_url;
 
@@ -584,7 +584,7 @@ class b2nivo_plugin extends Plugin
     }
 
 	
-	function SkinTag( $params )
+	function SkinTag( & $params )
 	{	
 		global $Plugins, $baseurl, $plugins_subdir, $plugins_path, $basepath;
 		$slider_folder = $params['slider_folder'];
