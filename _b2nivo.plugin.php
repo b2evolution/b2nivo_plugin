@@ -30,7 +30,7 @@ class b2nivo_plugin extends Plugin
 	var $short_desc = 'Nivo Slider Widget.';
 	var $number_of_installs = 1;
 	var $priority = 50;
-	var $version = '1.2';
+	var $version = '1.2.1';
 	var $extra_info = 'test?';
 	var $apply_rendering = 'never';
 
