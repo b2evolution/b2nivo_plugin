@@ -1,4 +1,12 @@
+# b2nivo Plugin
+
+## Not official
+
 Some errors in the plugin were fixed by the b2evolution team but this plugin is **not** officially supported by the b2evolution team.
+
+## Download
+
+You can download the packaged plugin from: http://plugins.b2evolution.net/b2nivo-plugin
 
 ## Instructions:
 
@@ -21,7 +29,7 @@ Both the jQuery Plugin and this b2 plugin is free to use.
 - PHP GD (usually installed by default)
 - open_dir (for scanning folder)
 
-Author : Emin Özlem aka tilqicom on [b2evolution forums](http://forums.b2evolution.net/)
+Author : Emin Ã–zlem aka tilqicom on [b2evolution forums](http://forums.b2evolution.net/)
 Contact: [eminozlem.com](http://www.eminozlem.com)
 
 The Nivo Slider Image Slider is developed by : [dev7studios](http://nivo.dev7studios.com/)
